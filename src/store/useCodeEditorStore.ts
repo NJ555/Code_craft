@@ -312,3 +312,7 @@ export const useCodeEditorStore = create<CodeEditorState>((set, get) => {
 // Helper to get the last execution result
 export const getExecutionResult = () =>
   useCodeEditorStore.getState().executionResult;
+
+
+
+

@@ -14,34 +14,44 @@ function LanguageSelector({ hasAccess }: { hasAccess: boolean }) {
   const { language, setLanguage } = useCodeEditorStore();
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // ✅ Added safe fallback if language key doesn't exist
-  const currentLanguageObj =
-    LANGUAGE_CONFIG[language] || {
-      id: "fallback",
-      label: "Unknown",
-      logoPath: "/default-logo.png",
-    };
-
-  // ✅ Helper to check if lang is C++
-  const isCpp = (id: string) => {
-    const normalized = id.toLowerCase().replace(/\+/g, "p");
-    return normalized === "cpp" || normalized === "cplusplus";
+  // ✅ Normalize language ids so c++, cpp, C++ all map to cpp
+  const normalizeLang = (id: string | undefined) => {
+    if (!id) return "cpp";
+    const norm = id.toLowerCase().replace(/\+/g, "p");
+    if (norm === "cpp" || norm === "cplusplus") return "cpp";
+    return id;
   };
 
+  const normalizedLanguage = normalizeLang(language);
+
+  // ✅ Fallback object if somehow id doesn't exist
+  const currentLanguageObj =
+    LANGUAGE_CONFIG[normalizedLanguage] || LANGUAGE_CONFIG["cpp"];
+
+  // ✅ Ensure default to C++ when no lang is set
+  useEffect(() => {
+    if (!language) {
+      setLanguage("cpp");
+    } else if (language !== normalizedLanguage) {
+      setLanguage(normalizedLanguage);
+    }
+  }, [language, normalizedLanguage, setLanguage]);
+
+  // ✅ Dropdown close on outside click
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsOpen(false);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const handleLanguageSelect = (langId: string) => {
-    if (!hasAccess && !isCpp(langId)) return;
-    setLanguage(langId);
+    const norm = normalizeLang(langId);
+    if (!hasAccess && norm !== "cpp") return;
+    setLanguage(norm);
     setIsOpen(false);
   };
 
@@ -54,14 +64,13 @@ function LanguageSelector({ hasAccess }: { hasAccess: boolean }) {
         whileTap={{ scale: 0.98 }}
         onClick={() => setIsOpen(!isOpen)}
         className={`group relative flex items-center gap-3 px-4 py-2.5 bg-[#1e1e2e]/80 
-      rounded-lg transition-all 
-       duration-200 border border-gray-800/50 hover:border-gray-700
-       ${!hasAccess && !isCpp(language) ? "opacity-50 cursor-not-allowed" : ""}`}
+          rounded-lg transition-all 
+          duration-200 border border-gray-800/50 hover:border-gray-700
+          ${!hasAccess && normalizedLanguage !== "cpp" ? "opacity-50 cursor-not-allowed" : ""}`}
       >
-        {/* Decoration */}
         <div
           className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/5 
-        rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"
+          rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"
           aria-hidden="true"
         />
 
@@ -93,7 +102,7 @@ function LanguageSelector({ hasAccess }: { hasAccess: boolean }) {
             exit={{ opacity: 0, y: 8, scale: 0.96 }}
             transition={{ duration: 0.2 }}
             className="absolute top-full left-0 mt-2 w-64 bg-[#1e1e2e]/95 backdrop-blur-xl
-           rounded-xl border border-[#313244] shadow-2xl py-2 z-50"
+              rounded-xl border border-[#313244] shadow-2xl py-2 z-50"
           >
             <div className="px-3 pb-2 mb-2 border-b border-gray-800/50">
               <p className="text-xs font-medium text-gray-400">Select Language</p>
@@ -101,40 +110,40 @@ function LanguageSelector({ hasAccess }: { hasAccess: boolean }) {
 
             <div className="max-h-[280px] overflow-y-auto overflow-x-hidden">
               {Object.values(LANGUAGE_CONFIG).map((lang, index) => {
-                const isLocked = !hasAccess && !isCpp(lang.id);
+                const normId = normalizeLang(lang.id);
+                const isLocked = !hasAccess && normId !== "cpp";
 
                 return (
                   <motion.div
                     key={lang.id}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ delay: index * 0.1 }}
+                    transition={{ delay: index * 0.05 }}
                     className="relative group px-2"
                   >
                     <button
                       className={`
-                      relative w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200
-                      ${language === lang.id ? "bg-blue-500/10 text-blue-400" : "text-gray-300"}
-                      ${isLocked ? "opacity-50" : "hover:bg-[#262637]"}
-                    `}
+                        relative w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200
+                        ${normalizedLanguage === normId ? "bg-blue-500/10 text-blue-400" : "text-gray-300"}
+                        ${isLocked ? "opacity-50" : "hover:bg-[#262637]"}
+                      `}
                       onClick={() => handleLanguageSelect(lang.id)}
                       disabled={isLocked}
                     >
-                      {/* decorator */}
                       <div
                         className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-purple-500/5 rounded-lg 
-                      opacity-0 group-hover:opacity-100 transition-opacity"
+                          opacity-0 group-hover:opacity-100 transition-opacity"
                       />
 
                       <div
                         className={`
-                         relative size-8 rounded-lg p-1.5 group-hover:scale-110 transition-transform
-                         ${language === lang.id ? "bg-blue-500/10" : "bg-gray-800/50"}
-                       `}
+                          relative size-8 rounded-lg p-1.5 group-hover:scale-110 transition-transform
+                          ${normalizedLanguage === normId ? "bg-blue-500/10" : "bg-gray-800/50"}
+                        `}
                       >
                         <div
                           className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-lg 
-                        opacity-0 group-hover:opacity-100 transition-opacity"
+                          opacity-0 group-hover:opacity-100 transition-opacity"
                         />
                         <Image
                           width={24}
@@ -149,22 +158,17 @@ function LanguageSelector({ hasAccess }: { hasAccess: boolean }) {
                         {lang.label}
                       </span>
 
-                      {/* selected language border */}
-                      {language === lang.id && (
+                      {normalizedLanguage === normId && (
                         <motion.div
                           className="absolute inset-0 border-2 border-blue-500/30 rounded-lg"
-                          transition={{
-                            type: "spring",
-                            bounce: 0.2,
-                            duration: 0.6,
-                          }}
+                          transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                         />
                       )}
 
                       {isLocked ? (
                         <Lock className="w-4 h-4 text-gray-500" />
                       ) : (
-                        language === lang.id && (
+                        normalizedLanguage === normId && (
                           <Sparkles className="w-4 h-4 text-blue-400 animate-pulse" />
                         )
                       )}
@@ -179,4 +183,5 @@ function LanguageSelector({ hasAccess }: { hasAccess: boolean }) {
     </div>
   );
 }
+
 export default LanguageSelector;

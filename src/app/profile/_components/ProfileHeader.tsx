@@ -28,7 +28,7 @@ interface ProfileHeaderProps {
     isPro: boolean;
   };
   user: UserResource;
-}
+} 
 
 function ProfileHeader({ userStats, userData, user }: ProfileHeaderProps) {
   const starredSnippets = useQuery(api.snippets.getStarredSnippets);
