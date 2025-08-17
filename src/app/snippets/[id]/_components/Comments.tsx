@@ -30,7 +30,7 @@ function Comments({ snippetId }: { snippetId: Id<"snippets"> }) {
     }
   };
 
-  const handleDeleteComment = async (commentId: Id<"snippetComments">) => {
+  const handleDeleteComment = async (commentId: Id<"snippetComment">) => {
     setDeletingCommentId(commentId);
 
     try {
@@ -68,14 +68,18 @@ function Comments({ snippetId }: { snippetId: Id<"snippets"> }) {
 
         <div className="space-y-6">
           {comments.map((comment) => (
-            <Comment
-              key={comment._id}
-              comment={comment}
-              onDelete={handleDeleteComment}
-              isDeleting={deletinCommentId === comment._id}
-              currentUserId={user?.id}
-            />
-          ))}
+  <Comment
+    key={comment._id}
+    comment={{
+      ...comment,
+      userName: comment.username, // map to expected type
+    }}
+    onDelete={handleDeleteComment}
+    isDeleting={deletinCommentId === comment._id}
+    currentUserId={user?.id}
+  />
+))}
+
         </div>
       </div>
     </div>
