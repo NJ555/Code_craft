@@ -39,8 +39,8 @@
 // //     >
 // //       <Link href={`/snippets/${snippet._id}`} className="h-full block">
 // //         <div
-// //           className="relative h-full bg-[#1e1e2e]/80 backdrop-blur-sm rounded-xl 
-// //           border border-[#313244]/50 hover:border-[#313244] 
+// //           className="relative h-full bg-[#1e1e2e]/80 backdrop-blur-sm rounded-xl
+// //           border border-[#313244]/50 hover:border-[#313244]
 // //           transition-all duration-300 overflow-hidden"
 // //         >
 // //           <div className="p-6">
@@ -49,7 +49,7 @@
 // //               <div className="flex items-center gap-3">
 // //                 <div className="relative">
 // //                   <div
-// //                     className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg blur opacity-20 
+// //                     className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg blur opacity-20
 // //                   group-hover:opacity-30 transition-all duration-500"
 // //                     area-hidden="true"
 // //                   />
@@ -137,9 +137,6 @@
 // // }
 // // export default SnippetCard;
 
-
-
-
 // "use client";
 
 // import { Snippet } from "@/types";
@@ -189,8 +186,8 @@
 //     >
 //       <Link href={`/snippets/${snippet._id}`} className="h-full block">
 //         <div
-//           className="relative h-full bg-[#1e1e2e]/80 backdrop-blur-sm rounded-xl 
-//           border border-[#313244]/50 hover:border-[#313244] 
+//           className="relative h-full bg-[#1e1e2e]/80 backdrop-blur-sm rounded-xl
+//           border border-[#313244]/50 hover:border-[#313244]
 //           transition-all duration-300 overflow-hidden"
 //         >
 //           <div className="p-6">
@@ -199,12 +196,12 @@
 //               <div className="flex items-center gap-3">
 //                 <div className="relative">
 //                   <div
-//                     className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg blur opacity-20 
+//                     className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg blur opacity-20
 //                     group-hover:opacity-30 transition-all duration-500"
 //                     aria-hidden="true"
 //                   />
 //                   <div
-//                     className="relative p-2 rounded-lg bg-gradient-to-br from-blue-500/10 to-purple-500/10 
+//                     className="relative p-2 rounded-lg bg-gradient-to-br from-blue-500/10 to-purple-500/10
 //                     group-hover:from-blue-500/20 group-hover:to-purple-500/20 transition-all duration-500"
 //                   >
 //                     <Image
@@ -288,11 +285,6 @@
 // }
 
 // export default SnippetCard;
-
-
-
-
-
 
 "use client";
 
@@ -389,8 +381,9 @@ function SnippetCard({ snippet }: { snippet: Snippet }) {
                 className="absolute top-5 right-5 z-10 flex gap-4 items-center"
                 onClick={(e) => e.preventDefault()}
               >
-                <StarButton snippetId={snippet._id} />
-
+                <StarButton snippetId={snippet._id} 
+                starredByUser={snippet.starredByUser}
+                starCount={snippet.starCount} />
                 {user?.id === snippet.userId && (
                   <button
                     onClick={handleDelete}

@@ -21,7 +21,11 @@ export const saveExecution = mutation({
       .filter((q) => q.eq(q.field("userId"), identity.subject))
       .first();
 
-    if (!user?.isPro && args.language !== "javascript") {
+    // ✅ define free languages
+    const FREE_LANGUAGES = ["cpp", "c++"];
+
+    // ✅ enforce pro check (case-insensitive)
+    if (!user?.isPro && !FREE_LANGUAGES.includes(args.language.toLowerCase())) {
       throw new ConvexError("Pro subscription required to use this language");
     }
 
@@ -31,6 +35,7 @@ export const saveExecution = mutation({
     });
   },
 });
+
 
 export const getUserExecutions = query({
   args: {

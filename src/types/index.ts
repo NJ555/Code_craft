@@ -56,6 +56,8 @@ export interface CodeEditorState {
 }
 
 export interface Snippet {
+  starredByUser: any;
+  starCount: any;
   _id: Id<"snippets">;
   _creationTime: number;
   userId: string;

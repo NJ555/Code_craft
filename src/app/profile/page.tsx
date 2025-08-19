@@ -7,9 +7,16 @@ import { api } from "../../../convex/_generated/api";
 import NavigationHeader from "@/components/NavigationHeader";
 import ProfileHeader from "./_components/ProfileHeader";
 import ProfileHeaderSkeleton from "./_components/ProfileHeaderSkeleton";
-import { ChevronRight, Clock, Code, ListVideo, Loader2, Star } from "lucide-react";
+import {
+  ChevronRight,
+  Clock,
+  Code,
+  ListVideo,
+  Loader2,
+  Star,
+} from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import Image from "next/image"; 
+import Image from "next/image";
 import Link from "next/link";
 import StarButton from "@/components/StarButton";
 import CodeBlock from "./_components/CodeBlock";
@@ -18,20 +25,20 @@ import CodeBlock from "./_components/CodeBlock";
 function getLanguageIconFile(language: string): string {
   const map: Record<string, string> = {
     "c++": "cpp",
-    "cpp": "cpp",
-    "csharp": "csharp",
+    cpp: "cpp",
+    csharp: "csharp",
     "c#": "csharp",
-    "bash": "bash",
-    "go": "go",
-    "javascript": "javascript",
-    "js": "javascript",
-    "java": "java",
-    "python": "python",
-    "ruby": "ruby",
-    "rust": "rust",
-    "swift": "swift",
-    "typescript": "typescript",
-    "ts": "typescript",
+    bash: "bash",
+    go: "go",
+    javascript: "javascript",
+    js: "javascript",
+    java: "java",
+    python: "python",
+    ruby: "ruby",
+    rust: "rust",
+    swift: "swift",
+    typescript: "typescript",
+    ts: "typescript",
     // add others as necessary
   };
   const key = language.toLowerCase();
@@ -51,16 +58,24 @@ const TABS = [
 function ProfilePage() {
   const { user, isLoaded } = useUser();
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState<"executions" | "starred">("executions");
+  const [activeTab, setActiveTab] = useState<"executions" | "starred">(
+    "executions"
+  );
 
-  const userStats = useQuery(api.codeExecutions.getUserStats, { userId: user?.id ?? "" });
+  const userStats = useQuery(api.codeExecutions.getUserStats, {
+    userId: user?.id ?? "",
+  });
   const starredSnippets = useQuery(api.snippets.getStarredSnippets);
   const {
     results: executions,
     status: executionStatus,
     isLoading: isLoadingExecutions,
     loadMore,
-  } = usePaginatedQuery(api.codeExecutions.getUserExecutions, { userId: user?.id ?? "" }, { initialNumItems: 5 });
+  } = usePaginatedQuery(
+    api.codeExecutions.getUserExecutions,
+    { userId: user?.id ?? "" },
+    { initialNumItems: 5 }
+  );
   const userData = useQuery(api.users.getUser, { userId: user?.id ?? "" });
 
   const handleLoadMore = () => {
@@ -75,7 +90,11 @@ function ProfilePage() {
 
       <div className="max-w-7xl mx-auto px-4 py-12">
         {userStats && userData ? (
-          <ProfileHeader userStats={userStats} userData={userData} user={user!} />
+          <ProfileHeader
+            userStats={userStats}
+            userData={userData}
+            user={user!}
+          />
         ) : (
           <ProfileHeaderSkeleton />
         )}
@@ -86,20 +105,30 @@ function ProfilePage() {
               {TABS.map((tab) => (
                 <button
                   key={tab.id}
-                  onClick={() => setActiveTab(tab.id as "executions" | "starred")}
+                  onClick={() =>
+                    setActiveTab(tab.id as "executions" | "starred")
+                  }
                   className={`group flex items-center gap-2 px-6 py-2.5 rounded-lg transition-all duration-200 relative overflow-hidden ${
-                    activeTab === tab.id ? "text-blue-400" : "text-gray-400 hover:text-gray-300"
+                    activeTab === tab.id
+                      ? "text-blue-400"
+                      : "text-gray-400 hover:text-gray-300"
                   }`}
                 >
                   {activeTab === tab.id && (
                     <motion.div
                       layoutId="activeTab"
                       className="absolute inset-0 bg-blue-500/10 rounded-lg"
-                      transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                      transition={{
+                        type: "spring",
+                        bounce: 0.2,
+                        duration: 0.6,
+                      }}
                     />
                   )}
                   <tab.icon className="w-4 h-4 relative z-10" />
-                  <span className="text-sm font-medium relative z-10">{tab.label}</span>
+                  <span className="text-sm font-medium relative z-10">
+                    {tab.label}
+                  </span>
                 </button>
               ))}
             </div>
@@ -132,20 +161,48 @@ function ProfilePage() {
                               width={40}
                               height={40}
                               onError={(e) => {
-                                (e.target as HTMLImageElement).src = "/default.png";
+                                (e.target as HTMLImageElement).src =
+                                  "/default.png";
                               }}
                             />
                           </div>
                           <div className="space-y-1">
                             <div className="flex items-center gap-2">
-                              <span className="text-sm font-medium text-white">{execution.language.toUpperCase()}</span>
+                              <span className="text-sm font-medium text-white">
+                                {execution.language.toUpperCase()}
+                              </span>
+
+                              {/* 🔒 Restriction Badge */}
+                              {execution.language.toLowerCase() !== "c++" &&
+                                execution.language.toLowerCase() !== "cpp" &&
+                                !userData?.isPro && (
+                                  <span className="text-xs px-2 py-0.5 bg-yellow-500/10 text-yellow-400 rounded-full">
+                                    Pro Required
+                                  </span>
+                                )}
+
                               <span className="text-xs text-gray-400">•</span>
-                              <span className="text-xs text-gray-400">{new Date(execution._creationTime).toLocaleString()}</span>
+                              <span className="text-xs text-gray-400">
+                                {new Date(
+                                  execution._creationTime
+                                ).toLocaleString()}
+                              </span>
                             </div>
                             <div className="flex items-center gap-2">
+                              {/* 🔒 Restriction Badge */}
+                              {execution.language.toLowerCase() !== "c++" &&
+                                execution.language.toLowerCase() !== "cpp" &&
+                                !userData?.isPro && (
+                                  <span className="text-xs px-2 py-0.5 bg-yellow-500/10 text-yellow-400 rounded-full">
+                                    Pro Required
+                                  </span>
+                                )}
+
                               <span
                                 className={`text-xs px-2 py-0.5 rounded-full ${
-                                  execution.error ? "bg-red-500/10 text-red-400" : "bg-green-500/10 text-green-400"
+                                  execution.error
+                                    ? "bg-red-500/10 text-red-400"
+                                    : "bg-green-500/10 text-green-400"
                                 }`}
                               >
                                 {execution.error ? "Error" : "Success"}
@@ -156,11 +213,18 @@ function ProfilePage() {
                       </div>
 
                       <div className="p-4 bg-black/20 rounded-b-xl border border-t-0 border-gray-800/50">
-                        <CodeBlock code={execution.code} language={execution.language} />
+                        <CodeBlock
+                          code={execution.code}
+                          language={execution.language}
+                        />
                         {(execution.output || execution.error) && (
                           <div className="mt-4 p-4 rounded-lg bg-black/40">
-                            <h4 className="text-sm font-medium text-gray-400 mb-2">Output</h4>
-                            <pre className={`text-sm ${execution.error ? "text-red-400" : "text-green-400"}`}>
+                            <h4 className="text-sm font-medium text-gray-400 mb-2">
+                              Output
+                            </h4>
+                            <pre
+                              className={`text-sm ${execution.error ? "text-red-400" : "text-green-400"}`}
+                            >
                               {execution.error || execution.output}
                             </pre>
                           </div>
@@ -172,13 +236,19 @@ function ProfilePage() {
                   {isLoadingExecutions ? (
                     <div className="text-center py-12">
                       <Loader2 className="w-12 h-12 text-gray-600 mx-auto mb-4 animate-spin" />
-                      <h3 className="text-lg font-medium text-gray-400 mb-2">Loading code executions...</h3>
+                      <h3 className="text-lg font-medium text-gray-400 mb-2">
+                        Loading code executions...
+                      </h3>
                     </div>
                   ) : executions?.length === 0 ? (
                     <div className="text-center py-12">
                       <Code className="w-12 h-12 text-gray-600 mx-auto mb-4" />
-                      <h3 className="text-lg font-medium text-gray-400 mb-2">No code executions yet</h3>
-                      <p className="text-gray-500">Start coding to see your execution history!</p>
+                      <h3 className="text-lg font-medium text-gray-400 mb-2">
+                        No code executions yet
+                      </h3>
+                      <p className="text-gray-500">
+                        Start coding to see your execution history!
+                      </p>
                     </div>
                   ) : null}
 
@@ -214,28 +284,42 @@ function ProfilePage() {
                                     width={40}
                                     height={40}
                                     onError={(e) => {
-                                      (e.target as HTMLImageElement).src = "/default.png";
+                                      (e.target as HTMLImageElement).src =
+                                        "/default.png";
                                     }}
                                   />
                                 </div>
-                                <span className="px-3 py-1 bg-blue-500/10 text-blue-400 rounded-lg text-sm">{snippet.language}</span>
+                                <span className="px-3 py-1 bg-blue-500/10 text-blue-400 rounded-lg text-sm">
+                                  {snippet.language}
+                                </span>
                               </div>
-                              <div className="absolute top-6 right-6 z-10" onClick={(e) => e.preventDefault()}>
+                              <div
+                                className="absolute top-6 right-6 z-10"
+                                onClick={(e) => e.preventDefault()}
+                              >
                                 <StarButton snippetId={snippet._id} />
                               </div>
                             </div>
-                            <h2 className="text-xl font-semibold text-white mb-3 line-clamp-1 group-hover:text-blue-400 transition-colors">{snippet.title}</h2>
+                            <h2 className="text-xl font-semibold text-white mb-3 line-clamp-1 group-hover:text-blue-400 transition-colors">
+                              {snippet.title}
+                            </h2>
                             <div className="flex items-center justify-between text-sm text-gray-400">
                               <div className="flex items-center gap-2">
                                 <Clock className="w-4 h-4" />
-                                <span>{new Date(snippet._creationTime).toLocaleDateString()}</span>
+                                <span>
+                                  {new Date(
+                                    snippet._creationTime
+                                  ).toLocaleDateString()}
+                                </span>
                               </div>
                               <ChevronRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
                             </div>
                           </div>
                           <div className="px-6 pb-6">
                             <div className="bg-black/30 rounded-lg p-4 overflow-hidden">
-                              <pre className="text-sm text-gray-300 font-mono line-clamp-3">{snippet.code}</pre>
+                              <pre className="text-sm text-gray-300 font-mono line-clamp-3">
+                                {snippet.code}
+                              </pre>
                             </div>
                           </div>
                         </div>
@@ -246,8 +330,12 @@ function ProfilePage() {
                   {(!starredSnippets || starredSnippets.length === 0) && (
                     <div className="col-span-full text-center py-12">
                       <Star className="w-12 h-12 text-gray-600 mx-auto mb-4" />
-                      <h3 className="text-lg font-medium text-gray-400 mb-2">No starred snippets yet</h3>
-                      <p className="text-gray-500">Start exploring and star the snippets you find useful!</p>
+                      <h3 className="text-lg font-medium text-gray-400 mb-2">
+                        No starred snippets yet
+                      </h3>
+                      <p className="text-gray-500">
+                        Start exploring and star the snippets you find useful!
+                      </p>
                     </div>
                   )}
                 </div>
