@@ -297,7 +297,11 @@ function ProfilePage() {
                                 className="absolute top-6 right-6 z-10"
                                 onClick={(e) => e.preventDefault()}
                               >
-                                <StarButton snippetId={snippet._id} />
+                                <StarButton
+                                  snippetId={snippet._id}
+                                  starredByUser={false} // no star yet by default
+                                  starCount={0} // 0 stars by default
+                                />
                               </div>
                             </div>
                             <h2 className="text-xl font-semibold text-white mb-3 line-clamp-1 group-hover:text-blue-400 transition-colors">
