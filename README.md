@@ -7,9 +7,7 @@
 
 <img width="1917" height="882" alt="image" src="https://github.com/user-attachments/assets/7b40d192-5ca9-4657-8943-15498f0f7f99" />
 
-<img width="1895" height="860" alt="image" src="https://github.com/user-attachments/assets/c23c4e23-553b-42f3-a0b2-2c39957cb865" />
 
-<img width="1909" height="889" alt="image" src="https://github.com/user-attachments/assets/403f8628-1f07-4648-89ce-a146fe89acb4" />
 
 
 
@@ -41,6 +39,10 @@
 - **Hosting**: [Vercel](https://vercel.com/)  
 
 ---
+<img width="1895" height="860" alt="image" src="https://github.com/user-attachments/assets/c23c4e23-553b-42f3-a0b2-2c39957cb865" />
+
+
+<img width="1909" height="889" alt="image" src="https://github.com/user-attachments/assets/403f8628-1f07-4648-89ce-a146fe89acb4" />
 
 ## 🚀 Getting Started  
 
