@@ -1,36 +1,88 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🖥️ codeX – Online Code Editor  
 
-## Getting Started
+**codeX** is a powerful online code editor built with **Next.js 15, Convex, Clerk, and TypeScript**, designed to provide developers with a seamless, collaborative, and customizable coding experience.  
 
-First, run the development server:
 
+<img width="1894" height="885" alt="image" src="https://github.com/user-attachments/assets/860487b2-d573-46c3-8bc7-1b5502103156" />
+
+<img width="1917" height="882" alt="image" src="https://github.com/user-attachments/assets/7b40d192-5ca9-4657-8943-15498f0f7f99" />
+
+<img width="1895" height="860" alt="image" src="https://github.com/user-attachments/assets/c23c4e23-553b-42f3-a0b2-2c39957cb865" />
+
+<img width="1909" height="889" alt="image" src="https://github.com/user-attachments/assets/403f8628-1f07-4648-89ce-a146fe89acb4" />
+
+
+
+
+## ✨ Key Features  
+
+- 🚀 **Modern Tech Stack** – Next.js 15 + Convex + Clerk + TypeScript  
+- 💻 **Multi-Language Support** – Run code in **10 programming languages**  
+- 🎨 **Customizable Themes** – Choose from **5 beautiful VSCode-inspired themes**  
+- ⚡ **Editor Panel & Output Handling** – Smooth execution with **success & error states**  
+- 📤 **Snippet Sharing** – Share your code with the community instantly  
+- 📚 **Snippets Page & Detail View** – Discover, explore, and comment on snippets  
+- 👤 **User Profiles** – Track execution history and your shared code  
+- 📊 **Statistics Dashboard** – Gain insights into your coding activity  
+- 💎 **Flexible Pricing** – Free & Pro plans with LemonSqueezy integration  
+- 🔍 **Advanced Filtering & Search** – Quickly find the code or snippet you need  
+- ⚙️ **Custom Font Sizes** – Adjust the editor to your preferences  
+- 🔗 **Webhook Support** – Integration-ready for external services  
+- 🌟 **Production-Ready Deployment** – Fully optimized for **Vercel**  
+
+---
+
+## 🛠️ Tech Stack  
+
+- **Frontend**: [Next.js 15](https://nextjs.org/) + [TypeScript](https://www.typescriptlang.org/)  
+- **Database**: [Convex](https://convex.dev/)  
+- **Authentication**: [Clerk](https://clerk.dev/)  
+- **Payments**: [LemonSqueezy](https://lemonsqueezy.com/)  
+- **Hosting**: [Vercel](https://vercel.com/)  
+
+---
+
+## 🚀 Getting Started  
+
+### 1️⃣ Clone the repository  
+```bash
+git clone https://github.com/your-username/codeX.git
+cd codeX
+```
+### 2️⃣ Install dependencies
+```bash
+npm install
+# or
+yarn install
+```
+### 3️⃣ Setup environment variables
+```bash
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_key
+CLERK_SECRET_KEY=your_key
+CONVEX_DEPLOY_KEY=your_key
+NEXT_PUBLIC_CONVEX_URL=your_url
+LEMON_SQUEEZY_API_KEY=your_key
+```
+### 4️⃣ Run the development server
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```
+### 5️⃣ Build & Deploy
+```bash
+npm run build
+npm run start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+💎 Pricing
 
-## Learn More
+Free Plan – Limited executions & snippet sharing
 
-To learn more about Next.js, take a look at the following resources:
+Pro Plan – Unlimited executions, premium themes, and advanced features
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+🤝 Contributing
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Contributions are always welcome!
+Please fork the repo, create a feature branch, and submit a PR.
